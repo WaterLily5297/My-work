@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Math Drill</title>
+    <meta name="description" content="Practice university math: linear algebra, calculus, probability and statistics. Endless generated problems, instant checking, worked solutions." />
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23e8f0df'/%3E%3Cpath d='M7 17l6 6L25 9' fill='none' stroke='%23c4302b' stroke-width='4' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" crossorigin="anonymous" />
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.js" crossorigin="anonymous"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/contrib/auto-render.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <h1 class="brand">Math Drill</h1>
+      <p class="tally" aria-live="polite">
+        <span><b id="stat-correct">0</b> of <b id="stat-total">0</b> correct</span>
+        <span>Streak <b id="stat-streak">0</b></span>
+        <span class="best">Best <b id="stat-best">0</b></span>
+      </p>
+    </header>
+
+    <div class="layout">
+      <aside class="topics" aria-label="Choose what to practise">
+        <details id="topics-panel" open>
+          <summary>Topics <span id="topics-count"></span></summary>
+          <div id="topic-list"></div>
+          <div class="topic-actions">
+            <button type="button" class="link" id="select-all">Select all</button>
+            <button type="button" class="link" id="reset-progress">Reset progress</button>
+          </div>
+        </details>
+
+        <section class="review" id="review-box">
+          <h2>Mistakes to revisit</h2>
+          <p id="review-empty" class="quiet">Problems you miss land here so you can try them again.</p>
+          <button type="button" class="pen-button" id="review-start" hidden>Retry <span id="review-count">0</span> missed</button>
+          <button type="button" class="link" id="review-stop" hidden>Back to new problems</button>
+        </section>
+      </aside>
+
+      <main class="sheet" id="sheet">
+        <div class="sheet-head">
+          <span class="problem-no" id="problem-no">No. 1</span>
+          <span class="problem-type" id="problem-type"></span>
+          <span class="mode-flag" id="mode-flag" hidden>Review</span>
+        </div>
+
+        <form id="answer-form" autocomplete="off" novalidate>
+          <div class="statement" id="statement"></div>
+          <div class="fields" id="fields"></div>
+          <p class="feedback" id="feedback" role="status" aria-live="polite"></p>
+
+          <div class="actions">
+            <button type="submit" class="primary" id="check-btn">Check answer</button>
+            <button type="button" id="next-btn" class="primary" hidden>Next problem</button>
+            <button type="button" id="hint-btn">Show hint</button>
+            <button type="button" id="solution-btn">Show solution</button>
+            <button type="button" id="skip-btn" class="link">Skip</button>
+          </div>
+        </form>
+
+        <div class="hint" id="hint" hidden></div>
+
+        <section class="solution" id="solution" hidden>
+          <h2>Worked solution</h2>
+          <ol id="solution-steps"></ol>
+        </section>
+
+        <svg class="mark" id="mark" viewBox="0 0 120 120" aria-hidden="true">
+          <path class="mark-check" d="M18 64 C 30 72, 40 84, 48 98 C 62 66, 80 40, 108 16" />
+          <path class="mark-cross" d="M24 24 C 50 50, 72 74, 98 100 M100 22 C 74 46, 50 72, 22 100" />
+        </svg>
+      </main>
+    </div>
+
+    <footer class="foot">
+      <p>Type answers as integers, fractions like <code>-3/4</code>, or decimals with three or more places. Press <kbd>Enter</kbd> to check, and again for the next problem.</p>
+    </footer>
+
+    <script src="js/core.js"></script>
+    <script src="js/problems.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

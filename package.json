@@ -1,0 +1,14 @@
+{
+  "name": "math-drill",
+  "version": "1.0.0",
+  "description": "Practice university math in the browser: auto-generated problems with instant checking and worked solutions.",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "start": "npx --yes http-server -c-1 -p 8080 ."
+  },
+  "devDependencies": {
+    "katex": "^0.16.22"
+  }
+}
