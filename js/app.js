@@ -101,7 +101,18 @@
       lab.className = "check";
       lab.htmlFor = all.id;
       lab.append(all, document.createTextNode(topic.name));
-      legend.append(lab);
+      const only = document.createElement("button");
+      only.type = "button";
+      only.className = "link only";
+      only.textContent = "Only this";
+      only.setAttribute("aria-label", `Practise only ${topic.name}`);
+      only.addEventListener("click", () => {
+        store.selected = types.map((t) => t.id);
+        save();
+        syncTopics();
+        if (mode === "new" && current && current.topic !== topic.id) nextProblem();
+      });
+      legend.append(lab, only);
       fs.append(legend);
 
       const ul = document.createElement("ul");

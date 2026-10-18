@@ -214,6 +214,8 @@ const verify = {
   },
 };
 
+Object.assign(verify, require("./ag-verifiers.js"));
+
 function* texIn(html) {
   const re = /\\\[([\s\S]*?)\\\]|\\\(([\s\S]*?)\\\)/g;
   let m;

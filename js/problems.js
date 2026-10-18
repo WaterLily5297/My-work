@@ -11,11 +11,13 @@
  * The same (type, seed) always produces the same problem.
  */
 (function (root, factory) {
-  const core = typeof module === "object" && module.exports ? require("./core.js") : root.MathDrillCore;
-  const lib = factory(core);
+  const isNode = typeof module === "object" && module.exports;
+  const core = isNode ? require("./core.js") : root.MathDrillCore;
+  const ag = isNode ? require("./problems-ag.js") : root.MathDrillAG;
+  const lib = factory(core, ag);
   if (typeof module === "object" && module.exports) module.exports = lib;
   else root.MathDrillProblems = lib;
-})(typeof self !== "undefined" ? self : this, function (core) {
+})(typeof self !== "undefined" ? self : this, function (core, ag) {
   "use strict";
   const { F, Fraction, p, sumTex, polyTex, polyEval, matTex, vecTex, binom, factorial } = core;
 
@@ -701,12 +703,14 @@
   // =====================================================================
 
   const TOPICS = [
+    ag.TOPIC,
     { id: "linalg", name: "Linear Algebra" },
     { id: "calc", name: "Calculus" },
     { id: "prob", name: "Probability & Statistics" },
   ];
 
   const TYPES = [
+    ...ag.TYPES,
     { id: "det2", topic: "linalg", name: "2×2 determinant", gen: det2x2 },
     { id: "det3", topic: "linalg", name: "3×3 determinant", gen: det3x3 },
     { id: "matmul", topic: "linalg", name: "Matrix product", gen: matrixProduct },

@@ -197,12 +197,18 @@ kbd {
 }
 
 .topic-group legend {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   padding: 0;
   margin-bottom: 0.2rem;
   font-weight: 650;
+}
+
+.topic-group .only {
+  margin-left: auto;
+  font-size: 0.82rem;
 }
 
 .topic-group ul {
@@ -339,7 +345,7 @@ button.link:hover {
   align-items: baseline;
   gap: 1rem;
   margin: 0 calc(-1 * clamp(1rem, 4vw, 2.75rem)) 1.75rem;
-  padding: 0.75rem clamp(1rem, 4vw, 2.75rem) 0.6rem;
+  padding: 0.75rem calc(clamp(1rem, 4vw, 2.75rem) + 64px) 0.6rem clamp(1rem, 4vw, 2.75rem);
   background: var(--paper);
   border-bottom: 3px double var(--grid-strong);
 }
@@ -369,7 +375,6 @@ button.link:hover {
   font-family: var(--serif);
   font-size: clamp(1.08rem, 1.6vw, 1.2rem);
   line-height: 1.65;
-  max-width: 62ch;
   min-height: 6rem;
 }
 
@@ -519,9 +524,9 @@ button.link:hover {
 
 .mark {
   position: absolute;
-  top: 3.5rem;
+  top: 0.3rem;
   right: clamp(0.5rem, 3vw, 2rem);
-  width: clamp(64px, 11vw, 110px);
+  width: 64px;
   height: auto;
   pointer-events: none;
   fill: none;
@@ -585,7 +590,7 @@ button.link:hover {
     width: 7rem;
   }
   .sheet-head {
-    padding-right: 4rem;
+    padding-right: 3.5rem;
   }
   .mark {
     top: 0.45rem;

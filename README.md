@@ -6,19 +6,15 @@ Practice university math in your browser. Every problem is generated on the fly,
 
 ## What you can practise
 
-| Linear Algebra | Calculus | Probability & Statistics |
-| --- | --- | --- |
-| 2×2 and 3×3 determinants | Derivatives (power rule) | Combinations |
-| Matrix products | Chain rule | Drawing without replacement |
-| Inverse matrices | Definite integrals | Expectation & variance |
-| Eigenvalues | Limits (0/0 forms) | Binomial distribution |
-| Cross products | Partial derivatives | Bayes' theorem |
-| Rank | Geometric series | Mean & variance of data |
-| Linear systems | Taylor series coefficients | Continuous densities |
-| | 2nd-order linear ODEs | |
-| | Double integrals | |
+**Algebraic Geometry**: singular points (multiplicity and tangent cone), intersection multiplicities, dimensions of monomial quotients `k[x,y]/I`, points at infinity of projective closures, Bézout's theorem, genus of plane curves with nodes and cusps, Riemann–Hurwitz, Riemann–Roch, Hilbert functions, Veronese and Segre embeddings.
 
-24 problem types in all. Tick the topics you want in the sidebar.
+**Linear Algebra**: 2×2 and 3×3 determinants, matrix products, inverse matrices, eigenvalues, cross products, rank, linear systems.
+
+**Calculus**: derivatives, chain rule, definite integrals, limits (0/0 forms), partial derivatives, geometric series, Taylor series coefficients, 2nd-order linear ODEs, double integrals.
+
+**Probability & Statistics**: combinations, drawing without replacement, expectation and variance, the binomial distribution, Bayes' theorem, mean and variance of data, continuous densities.
+
+34 problem types in all. Tick the ones you want in the sidebar, or use *Only this* to focus on one topic.
 
 ## Features
 
@@ -39,7 +35,7 @@ No build step and no dependencies at runtime.
 
 ## Tests
 
-The tests check every problem type over hundreds of random seeds against an independent calculation (numerical integration, brute-force probability, Gaussian elimination and so on), confirm that all generated math renders with KaTeX, and exercise the answer checker.
+The tests check every problem type over hundreds of random seeds against an independent calculation (numerical integration, brute-force probability, Gaussian elimination, exact polynomial gcds, brute-force monomial counts and so on), confirm that all generated math renders with KaTeX, and exercise the answer checker.
 
 ```bash
 npm install
@@ -54,16 +50,17 @@ They also run automatically on GitHub Actions for every push.
 index.html          the page
 css/style.css       styles (engineering-pad look, light and dark)
 js/core.js          exact fractions, seeded random numbers, answer parsing, TeX helpers
-js/problems.js      the 24 problem generators and the topic list
+js/problems.js      linear algebra, calculus and probability generators, plus the topic list
+js/problems-ag.js   algebraic geometry generators
 js/app.js           the interface: picking problems, checking, progress, review
 tests/              Node tests (node:test)
 ```
 
 ## Adding a problem type
 
-1. Write a generator in `js/problems.js`. It receives a seeded random number generator and returns the statement, the answers (as `Fraction`s), a hint and solution steps. Keep a `data` field with the raw numbers.
+1. Write a generator in `js/problems.js` (or `js/problems-ag.js` for algebraic geometry). It receives a seeded random number generator and returns the statement, the answers (as `Fraction`s), a hint and solution steps. Keep a `data` field with the raw numbers.
 2. Register it in the `TYPES` list with an id, topic and name.
-3. Add a matching verifier in `tests/problems.test.js` that recomputes the answer from `data` a different way, then run `npm test`.
+3. Add a matching verifier in `tests/problems.test.js` (or `tests/ag-verifiers.js`) that recomputes the answer from `data` a different way, then run `npm test`.
 
 ## License
 
