@@ -32,7 +32,7 @@ Practice university math in your browser. Every problem is generated on the fly,
 No build step and no dependencies at runtime.
 
 - **Locally**: download the repository and open `index.html` in your browser. (Math rendering uses KaTeX from a CDN, so you need an internet connection.)
-- **On GitHub Pages**: in this repository go to *Settings → Pages*, set *Source* to *Deploy from a branch*, choose `main` and `/ (root)`, and save. The app will be live at `https://<your-username>.github.io/<repository-name>/` within a minute or two.
+- **On GitHub Pages**: in this repository go to *Settings → Pages*, set *Source* to *Deploy from a branch*, choose the branch this app is on (`math-drill`) and `/ (root)`, and save. The app will be live at `https://<your-username>.github.io/<repository-name>/` within a minute or two.
 
 ## Tests
 
