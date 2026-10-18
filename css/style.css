@@ -520,6 +520,25 @@ button.link:hover {
   font-size: 0.9rem;
 }
 
+.why {
+  margin-top: 1.5rem;
+  padding: 0.9rem 1.25rem 1rem;
+  background: var(--paper);
+  border-left: 3px solid var(--red);
+}
+
+.why h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+}
+
+.why p {
+  margin: 0;
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  line-height: 1.65;
+}
+
 /* ---------- Red-pen mark ---------- */
 
 .mark {

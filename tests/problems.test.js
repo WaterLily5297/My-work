@@ -222,6 +222,10 @@ function* texIn(html) {
   while ((m = re.exec(html))) yield { tex: m[1] ?? m[2], display: m[1] != null };
 }
 
+test("every algebraic geometry type explains why it matters", () => {
+  for (const t of P.TYPES.filter((t) => t.topic === "ag")) assert.ok(t.why && t.why.length > 80, t.id);
+});
+
 test("every problem type has a verifier", () => {
   for (const t of P.TYPES) assert.ok(verify[t.id], `missing verifier for ${t.id}`);
 });
@@ -253,7 +257,7 @@ for (const t of P.TYPES) {
         assert.ok(Number.isSafeInteger(ans.value.n) && Number.isSafeInteger(ans.value.d));
         katex.renderToString(ans.label, { throwOnError: true });
       }
-      for (const html of [a.statement, a.hint, ...a.solution]) {
+      for (const html of [a.statement, a.hint, ...a.solution, ...(a.why ? [a.why] : [])]) {
         assert.ok(!/undefined|NaN|\[object/.test(html), `bad text in ${t.id}#${seed}: ${html}`);
         for (const { tex, display } of texIn(html)) {
           try {

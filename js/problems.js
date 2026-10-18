@@ -743,7 +743,7 @@
     const type = byId[typeId];
     if (!type) throw new Error(`Unknown problem type: ${typeId}`);
     const problem = type.gen(core.makeRng(seed));
-    return { ...problem, type: typeId, topic: type.topic, name: type.name, seed };
+    return { ...problem, type: typeId, topic: type.topic, name: type.name, why: type.why || null, seed };
   }
 
   return { TOPICS, TYPES, byId, generate, Fraction };

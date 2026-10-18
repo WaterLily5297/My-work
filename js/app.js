@@ -59,6 +59,8 @@
     solution: $("solution"),
     steps: $("solution-steps"),
     mark: $("mark"),
+    why: $("why"),
+    whyText: $("why-text"),
     no: $("problem-no"),
     type: $("problem-type"),
     modeFlag: $("mode-flag"),
@@ -277,6 +279,9 @@
     renderMath(el.hint);
     el.solution.hidden = true;
     el.steps.innerHTML = "";
+    el.why.hidden = true;
+    el.whyText.innerHTML = current.why || "";
+    renderMath(el.whyText);
     setMark(null);
     el.check.hidden = false;
     el.skip.hidden = false;
@@ -317,6 +322,7 @@
 
   function finish() {
     done = true;
+    el.why.hidden = !current.why;
     el.check.hidden = true;
     el.skip.hidden = true;
     el.next.hidden = false;

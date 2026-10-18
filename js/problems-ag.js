@@ -462,16 +462,16 @@
 
   const TOPIC = { id: "ag", name: "Algebraic Geometry" };
   const TYPES = [
-    { id: "ag-sing", topic: "ag", name: "Singular points", gen: singularPoint },
-    { id: "ag-intmult", topic: "ag", name: "Intersection multiplicity", gen: intersectionMultiplicity },
-    { id: "ag-quotient", topic: "ag", name: "Monomial quotients", gen: monomialQuotient },
-    { id: "ag-infinity", topic: "ag", name: "Points at infinity", gen: pointsAtInfinity },
-    { id: "ag-bezout", topic: "ag", name: "Bézout's theorem", gen: bezout },
-    { id: "ag-genus", topic: "ag", name: "Genus of plane curves", gen: genusPlaneCurve },
-    { id: "ag-hurwitz", topic: "ag", name: "Riemann–Hurwitz", gen: riemannHurwitz },
-    { id: "ag-rr", topic: "ag", name: "Riemann–Roch", gen: riemannRoch },
-    { id: "ag-hilbert", topic: "ag", name: "Hilbert functions", gen: hilbertFunction },
-    { id: "ag-embed", topic: "ag", name: "Veronese & Segre", gen: embeddings },
+    { id: "ag-sing", topic: "ag", name: "Singular points", gen: singularPoint, why: "Singular points are where a curve stops being a smooth manifold, and multiplicity and the tangent cone are the first invariants used to tell them apart. The names here (\\(A_n\\), \\(E_6\\)) come from the ADE classification, which links simple singularities to Dynkin diagrams and Lie algebras. Each singularity also lowers the genus, which ties into the genus problems." },
+    { id: "ag-intmult", topic: "ag", name: "Intersection multiplicity", gen: intersectionMultiplicity, why: "Intersection multiplicities are what make Bézout's theorem exactly true rather than an upper bound. The general definition, \\(\\dim_k \\mathcal{O}_P/(f, g)\\), is one of the first places where commutative algebra does geometric work, and it grows into modern intersection theory." },
+    { id: "ag-quotient", topic: "ag", name: "Monomial quotients", gen: monomialQuotient, why: "Monomial ideals are the combinatorial skeleton of the subject: a Gröbner basis replaces any ideal by a monomial ideal with the same Hilbert function. That is how computer algebra systems such as Macaulay2 and Singular compute dimensions, degrees and intersection numbers." },
+    { id: "ag-infinity", topic: "ag", name: "Points at infinity", gen: pointsAtInfinity, why: "Points at infinity are why we work in projective space: without them two parallel lines don't meet and Bézout fails. Adding them makes intersection counts uniform. For real curves, the real points at infinity correspond to the asymptotic directions." },
+    { id: "ag-bezout", topic: "ag", name: "Bézout's theorem", gen: bezout, why: "Bézout is the model enumerative theorem: it counts solutions to polynomial equations without solving them. Its descendants, such as the Bernstein–Kushnirenko bound for sparse systems, tell numerical algebraic geometry how many solutions to track, for instance in robot kinematics." },
+    { id: "ag-genus", topic: "ag", name: "Genus of plane curves", gen: genusPlaneCurve, why: "Genus governs arithmetic. A curve of genus 0 with one rational point can be parametrised and has infinitely many. Genus 1 gives elliptic curves, whose rational points form a finitely generated group. For genus \\(\\ge 2\\), Faltings proved there are only finitely many rational points. The Fermat curve \\(x^n + y^n = 1\\) has genus \\(\\ge 2\\) once \\(n \\ge 4\\)." },
+    { id: "ag-hurwitz", topic: "ag", name: "Riemann–Hurwitz", gen: riemannHurwitz, why: "Riemann–Hurwitz turns a map between curves into an equation between genera. It computes genera, as here, and forbids maps: a nonconstant map \\(C \\to D\\) forces \\(g(C) \\ge g(D)\\). Counting branched covers leads to Hurwitz numbers, which appear in modern enumerative geometry." },
+    { id: "ag-rr", topic: "ag", name: "Riemann–Roch", gen: riemannRoch, why: "Riemann–Roch tells you how many functions with prescribed poles exist, and that is how you find a curve's maps to projective space. It shows that every genus-1 curve with a point is a plane cubic and every genus-2 curve is hyperelliptic. It also underlies algebraic-geometry (Goppa) codes in coding theory." },
+    { id: "ag-hilbert", topic: "ag", name: "Hilbert functions", gen: hilbertFunction, why: "The Hilbert polynomial packages the basic invariants of a projective variety: its dimension (the degree of the polynomial), its degree (from the leading coefficient), and for curves the arithmetic genus (from the constant term). Fixing it is how Grothendieck built Hilbert schemes, the spaces that parametrise all subvarieties with given invariants." },
+    { id: "ag-embed", topic: "ag", name: "Veronese & Segre", gen: embeddings, why: "The Veronese embedding turns degree-\\(d\\) hypersurfaces into hyperplane sections, so nonlinear questions become linear ones. The Segre embedding shows that products of projective varieties are again projective; its image is the set of rank-one matrices, or in quantum physics the unentangled product states." },
   ];
 
   return { TOPIC, TYPES, poly: { terms, padd, pmul, compose, mono, X, Y, degree, lowDegree, homog, dx, dy } };
