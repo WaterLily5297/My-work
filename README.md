@@ -1,5 +1,7 @@
 # Pic(𝔸¹_k) = 0 in Lean 4
 
+[![Lean](https://github.com/WaterLily5297/My-work/actions/workflows/lean.yml/badge.svg?branch=main)](https://github.com/WaterLily5297/My-work/actions/workflows/lean.yml)
+
 A formalization in Lean 4 + Mathlib of the following exercise:
 
 > Let `k` be a field and `X = 𝔸¹_k = Spec k[t]`. Every invertible sheaf `𝓛` on `X` is
@@ -55,9 +57,20 @@ lake build
 Uses Lean `v4.35.0` and Mathlib `v4.35.0`. Running `lake exe cache get` first downloads the
 prebuilt Mathlib, which saves several hours of compiling.
 
+To check that the main theorems use no `sorry` and only the standard axioms:
+
+```
+lake env lean scripts/CheckAxioms.lean > axioms.txt
+python3 scripts/check_axioms.py axioms.txt scripts/CheckAxioms.lean
+```
+
+GitHub Actions runs `lake build` and this check on every push and pull request
+(`.github/workflows/lean.yml`), so the project is verified without building it locally.
+
 ## 日本語の概要
 
 体 `k` 上のアフィン直線 `𝔸¹_k = Spec k[t]` について、任意の可逆層が構造層と同型であること
 （`Pic(𝔸¹_k) = 0`）を Lean 4 で形式化しました。より一般に、単項イデアル整域 `A` に対して
-`Spec A` 上で証明しています。方針は「可逆層 ⇒ 準連接 ⇒ `𝓛 ≅ M~` ⇒ `M` は有限生成かつ
+`Spec A` 上で証明しています。GitHub Actions が push のたびにビルドし、主要な定理が `sorry` を
+使わず標準の公理（`propext`・`Classical.choice`・`Quot.sound`）だけに依存することを確認します。方針は「可逆層 ⇒ 準連接 ⇒ `𝓛 ≅ M~` ⇒ `M` は有限生成かつ
 ねじれなし ⇒ PID 上なので自由 ⇒ 局所化で階数 1 ⇒ `M ≅ A`」です。

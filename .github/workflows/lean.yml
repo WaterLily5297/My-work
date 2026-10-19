@@ -1,0 +1,22 @@
+name: Lean
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build and check axioms
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      # Installs the toolchain from lean-toolchain, downloads the prebuilt Mathlib
+      # (lake exe cache get) and runs lake build.
+      - uses: leanprover/lean-action@v1
+      - name: Main theorems use only the standard axioms
+        run: |
+          lake env lean scripts/CheckAxioms.lean > axioms.txt
+          cat axioms.txt
+          python3 scripts/check_axioms.py axioms.txt scripts/CheckAxioms.lean
