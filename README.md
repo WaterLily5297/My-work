@@ -2,6 +2,8 @@
 
 Practice university math in your browser. Every problem is generated on the fly, so you never run out: type your answer, get it marked instantly, and read a worked, step-by-step solution.
 
+**The problems are AI-generated.** They come from a program written with an AI assistant, not from a textbook. The site marks every problem with an "AI-generated" badge, and exported review cards carry the same label. The tests check each answer against an independent calculation, but the wording and explanations have not been reviewed by a person.
+
 ![Math Drill screenshot](docs/screenshot.png)
 
 ## What you can practise
