@@ -442,6 +442,24 @@ button.link:hover {
   font-size: 0.98rem;
 }
 
+/* Marks every generated problem, so it is never mistaken for a textbook exercise. */
+.origin-badge {
+  flex: none;
+  padding: 0.05rem 0.45rem;
+  border: 1px solid var(--muted);
+  border-radius: 999px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.origin-badge.book {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+
 .mode-flag {
   margin-left: auto;
   color: var(--red);

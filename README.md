@@ -2,6 +2,8 @@
 
 Practice university math in your browser. Every problem is generated on the fly, so you never run out: type your answer, get it marked instantly, and read a worked, step-by-step solution.
 
+**The problems are AI-generated.** They come from a program written with an AI assistant, not from a textbook. The site marks every problem with an "AI-generated" badge, and exported review cards carry the same label. The tests check each answer against an independent calculation, but the wording and explanations have not been reviewed by a person.
+
 ![Math Drill screenshot](docs/screenshot.png)
 
 ## What you can practise
@@ -36,7 +38,7 @@ Practice university math in your browser. Every problem is generated on the fly,
 
 ## Book exercises
 
-`exercises.html` schedules exercises from the books you are reading, so you can practise on problems written by their authors instead of generated ones.
+`exercises.html` schedules exercises from the books you are reading, so you can practise on problems written by their authors instead of AI-generated ones. Each card carries a "From the book" badge, while every problem on the main page carries an "AI-generated" badge, so the two are never mixed up.
 
 - **Add** a book (titles from the [Formosa catalog](https://waterlily5297.github.io/MathKnowledge-Public/) are suggested, and any other title works), an optional chapter or section, the exercise numbers (`3.17-3.20, 3.24`; a range keeps everything before its last number, as in `II.3-II.5`) and an optional page.
 - **Solve** each due exercise on paper in the book, then mark *Solved it* or *Not yet*. Solved exercises come back after 1, 3, 7 and 16 days, and one more success marks them mastered; *Not yet* brings them back tomorrow. Answers count toward the activity calendar on the problems page.

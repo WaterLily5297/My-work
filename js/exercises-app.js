@@ -148,6 +148,7 @@
     current = waiting[0] || queue[0] || null;
     $("queue-count").textContent = `${queue.length} due today`;
     $("card").hidden = !current;
+    $("card-origin").hidden = !current;
     $("queue-empty").hidden = Boolean(current);
     if (!current) {
       const upcoming = items.filter((x) => !x.mastered && x.due).map((x) => x.due).sort()[0];
