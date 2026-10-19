@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: 22
       - run: npm install
-      - run: curl -fsSL --retry 3 https://hellnish.github.io/MathKnowledge-Public/catalog.json -o "$RUNNER_TEMP/catalog.json"
+      - run: curl -fsSL --retry 3 https://waterlily5297.github.io/MathKnowledge-Public/catalog.json -o "$RUNNER_TEMP/catalog.json"
       - run: node --test tests/reading.test.js
         env:
           FORMOSA_CATALOG: ${{ runner.temp }}/catalog.json

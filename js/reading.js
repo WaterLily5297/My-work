@@ -1,5 +1,5 @@
 /* Math Drill: further reading for each problem type, drawn from the Formosa public catalog.
- * Generated from https://hellnish.github.io/MathKnowledge-Public/catalog.json (updated 2026-10-19).
+ * Generated from https://waterlily5297.github.io/MathKnowledge-Public/catalog.json (updated 2026-10-19).
  * Each book keeps the catalog ID, so the catalog entry link opens a local PDF when the reader has
  * connected a local library there. Titles, authors and sources are copied from the catalog
  * (a romanized name the catalog repeats as "Name /Name" is shown once).
@@ -10,7 +10,7 @@
   else root.MathDrillReading = lib;
 })(typeof self !== "undefined" ? self : this, function () {
   "use strict";
-  const CATALOG = "https://hellnish.github.io/MathKnowledge-Public/";
+  const CATALOG = "https://waterlily5297.github.io/MathKnowledge-Public/";
 
   const BOOKS = {
     "ag-classic-combinatorial-ca": { title: "Combinatorial Commutative Algebra", authors: "Ezra Miller; Bernd Sturmfels", language: "en", source: "https://math.berkeley.edu/~bernd/books.html" },
