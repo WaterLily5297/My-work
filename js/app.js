@@ -4,6 +4,7 @@
   const core = window.MathDrillCore;
   const P = window.MathDrillProblems;
   const R = window.MathDrillReading;
+  const C = window.MathDrillCards;
   const STORE_KEY = "math-drill-v1";
 
   // ---------- Persistence (browser storage may be unavailable; the app still works) ----------
@@ -75,6 +76,9 @@
     reviewStart: $("review-start"),
     reviewStop: $("review-stop"),
     reviewCount: $("review-count"),
+    exportBox: $("export-box"),
+    exportCards: $("export-cards"),
+    exportNote: $("export-note"),
   };
 
   // ---------- Math rendering ----------
@@ -232,6 +236,24 @@
     el.reviewStart.hidden = n === 0 || mode === "review";
     el.reviewStop.hidden = mode !== "review";
     el.modeFlag.hidden = mode !== "review";
+    el.exportBox.hidden = n === 0 || !C;
+  }
+
+  // Saved mistakes become a Markdown note of review cards, made in the browser.
+  function exportCards() {
+    const date = new Date().toISOString().slice(0, 10);
+    const { text, count, skipped } = C.toMarkdown(store.review, P, date);
+    const url = URL.createObjectURL(new Blob([text], { type: "text/markdown;charset=utf-8" }));
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `math-drill-mistakes-${date}.md`;
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    el.exportNote.textContent = skipped
+      ? `Saved the first ${count} of ${count + skipped} problems as cards (Formosa reads up to ${C.MAX_CARDS} cards per note).`
+      : `Saved ${count} ${count === 1 ? "problem" : "problems"} as review cards.`;
   }
 
   function record(ok) {
@@ -459,6 +481,7 @@
     mode = "review";
     nextProblem();
   });
+  el.exportCards.addEventListener("click", exportCards);
   el.reviewStop.addEventListener("click", () => {
     mode = "new";
     nextProblem();
