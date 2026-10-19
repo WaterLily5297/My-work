@@ -40,6 +40,10 @@
           <p id="review-empty" class="quiet">Problems you miss land here so you can try them again.</p>
           <button type="button" class="pen-button" id="review-start" hidden>Retry <span id="review-count">0</span> missed</button>
           <button type="button" class="link" id="review-stop" hidden>Back to new problems</button>
+          <div class="export" id="export-box" hidden>
+            <button type="button" class="link" id="export-cards">Download as review cards (.md)</button>
+            <p class="quiet" id="export-note">A Markdown note for Obsidian. Formosa can import each problem as a review card.</p>
+          </div>
         </section>
       </aside>
 
@@ -98,6 +102,7 @@
     <script src="js/problems-ag.js"></script>
     <script src="js/problems.js"></script>
     <script src="js/reading.js"></script>
+    <script src="js/cards.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>
