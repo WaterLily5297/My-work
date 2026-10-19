@@ -14,3 +14,17 @@ jobs:
           node-version: 22
       - run: npm install
       - run: npm test
+
+  catalog-links:
+    # Further-reading books must still be in the published Formosa catalog.
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm install
+      - run: curl -fsSL --retry 3 https://hellnish.github.io/MathKnowledge-Public/catalog.json -o "$RUNNER_TEMP/catalog.json"
+      - run: node --test tests/reading.test.js
+        env:
+          FORMOSA_CATALOG: ${{ runner.temp }}/catalog.json
