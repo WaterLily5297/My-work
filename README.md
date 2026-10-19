@@ -22,7 +22,7 @@ Practice university math in your browser. Every problem is generated on the fly,
 - **Exact checking**: answers are compared as exact fractions. Type `3`, `-2/5` or `0.125`; for answers like 1/3, a decimal with at least three places (`0.333`) is accepted too. Full-width digits work.
 - **Worked solutions** for every problem, plus a hint if you're stuck.
 - **Why it matters**: each algebraic geometry problem ends with a short note on where the idea leads.
-- **Further reading**: after each problem, books and lecture notes on that topic from the [Formosa public catalog](https://hellnish.github.io/MathKnowledge-Public/), with Japanese resources where the catalog has them. Titles open the source; *catalog entry* opens the book in the catalog, where a connected local library opens your own PDF.
+- **Further reading**: after each problem, books and lecture notes on that topic from the [Formosa public catalog](https://waterlily5297.github.io/MathKnowledge-Public/), with Japanese resources where the catalog has them. Titles open the source; *catalog entry* opens the book in the catalog, where a connected local library opens your own PDF.
 - **Mistakes to revisit**: anything you miss is saved so you can retry exactly the same problem later.
 - **Progress tracking**: score, streak and per-topic accuracy are saved in your browser.
 - **Keyboard friendly**: press <kbd>Enter</kbd> to check, and <kbd>Enter</kbd> again for the next problem.
