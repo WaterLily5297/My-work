@@ -14,10 +14,11 @@
   const isNode = typeof module === "object" && module.exports;
   const core = isNode ? require("./core.js") : root.MathDrillCore;
   const ag = isNode ? require("./problems-ag.js") : root.MathDrillAG;
-  const lib = factory(core, ag);
+  const nt = isNode ? require("./problems-nt.js") : root.MathDrillNT;
+  const lib = factory(core, ag, nt);
   if (typeof module === "object" && module.exports) module.exports = lib;
   else root.MathDrillProblems = lib;
-})(typeof self !== "undefined" ? self : this, function (core, ag) {
+})(typeof self !== "undefined" ? self : this, function (core, ag, nt) {
   "use strict";
   const { F, Fraction, p, sumTex, polyTex, polyEval, matTex, vecTex, binom, factorial } = core;
 
@@ -704,6 +705,7 @@
 
   const TOPICS = [
     ag.TOPIC,
+    nt.TOPIC,
     { id: "linalg", name: "Linear Algebra" },
     { id: "calc", name: "Calculus" },
     { id: "prob", name: "Probability & Statistics" },
@@ -711,6 +713,7 @@
 
   const TYPES = [
     ...ag.TYPES,
+    ...nt.TYPES,
     { id: "det2", topic: "linalg", name: "2×2 determinant", gen: det2x2 },
     { id: "det3", topic: "linalg", name: "3×3 determinant", gen: det3x3 },
     { id: "matmul", topic: "linalg", name: "Matrix product", gen: matrixProduct },
