@@ -56,6 +56,7 @@
         <section class="progress">
           <h2>Backup</h2>
           <p class="quiet">Your exercises are kept in this browser only. Download a backup now and then. Restore also loads an exercise deck from an openly licensed book.</p>
+          <p class="quiet" id="last-backup"></p>
           <button type="button" class="link" id="backup">Download backup (.json)</button>
           <label class="file-link">Restore or load a deck…<input type="file" id="restore" accept=".json,application/json" /></label>
           <p class="quiet" id="backup-status" role="status" aria-live="polite"></p>
@@ -66,6 +67,11 @@
         <div class="sheet-head">
           <span class="problem-no" id="queue-count">Due today</span>
           <span class="problem-type" id="card-book"></span>
+        </div>
+
+        <div class="backup-reminder" id="backup-reminder" role="status" hidden>
+          <p id="backup-reminder-text"></p>
+          <button type="button" id="backup-now">Download backup</button>
         </div>
 
         <div id="card" hidden>

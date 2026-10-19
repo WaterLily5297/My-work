@@ -6,6 +6,7 @@
   const E = window.MathDrillExercises;
   const KEY = "math-drill-exercises-v1";
   const DRILL_KEY = "math-drill-v1"; // shares the daily activity log with the problems page
+  const LAST_BACKUP_KEY = "math-drill-exercises-last-backup";
 
   const $ = (id) => document.getElementById(id);
   const today = () => S.dayOf(new Date());
@@ -241,7 +242,25 @@
   });
 
   // ---------- Backup ----------
-  $("backup").addEventListener("click", () => {
+  function lastBackup() {
+    try {
+      const day = localStorage.getItem(LAST_BACKUP_KEY);
+      return /^\d{4}-\d{2}-\d{2}$/.test(day || "") ? day : null;
+    } catch {
+      return null;
+    }
+  }
+  function renderBackup() {
+    const last = lastBackup();
+    const { due, days } = E.backupStatus(last, today(), items.length);
+    $("last-backup").textContent = last ? `Last backup: ${formatDay(last)}.` : items.length ? "No backup yet." : "";
+    $("backup-reminder").hidden = !due;
+    $("backup-reminder-text").textContent =
+      days === null
+        ? "Your exercises are saved only in this browser, and there is no backup yet."
+        : `Your last backup was ${days} days ago. Download a new one so your progress is safe.`;
+  }
+  function downloadBackup() {
     const day = today();
     const url = URL.createObjectURL(new Blob([JSON.stringify(E.backup(items, day), null, 1)], { type: "application/json" }));
     const a = document.createElement("a");
@@ -252,7 +271,15 @@
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     $("backup-status").textContent = `Saved ${items.length} ${items.length === 1 ? "exercise" : "exercises"}.`;
-  });
+    try {
+      localStorage.setItem(LAST_BACKUP_KEY, day);
+    } catch {
+      /* the reminder is a convenience */
+    }
+    renderBackup();
+  }
+  $("backup").addEventListener("click", downloadBackup);
+  $("backup-now").addEventListener("click", downloadBackup);
   $("restore").addEventListener("change", async (event) => {
     const file = event.target.files[0];
     event.target.value = "";
@@ -272,6 +299,7 @@
   function render() {
     renderBooks();
     showCard();
+    renderBackup();
   }
 
   function start() {

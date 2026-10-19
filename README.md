@@ -41,7 +41,7 @@ Practice university math in your browser. Every problem is generated on the fly,
 - **Add** a book (titles from the [Formosa catalog](https://waterlily5297.github.io/MathKnowledge-Public/) are suggested, and any other title works), an optional chapter or section, the exercise numbers (`3.17-3.20, 3.24`; a range keeps everything before its last number, as in `II.3-II.5`) and an optional page.
 - **Solve** each due exercise on paper in the book, then mark *Solved it* or *Not yet*. Solved exercises come back after 1, 3, 7 and 16 days, and one more success marks them mastered; *Not yet* brings them back tomorrow. Answers count toward the activity calendar on the problems page.
 - **Only references are stored** for your own books (book, section, number, page), so no problem text is copied. Books from the catalog link to their catalog entry, where a connected local library opens your own PDF.
-- **Backup**: exercises live in this browser's storage. *Download backup* saves a JSON file; *Restore* merges one back without overwriting saved progress.
+- **Backup**: exercises live in this browser's storage. *Download backup* saves a JSON file; *Restore* merges one back without overwriting saved progress. Once there are exercises, a reminder appears above the card when there has been no backup for seven days (or none yet).
 
 ### Exercise decks from openly licensed books
 

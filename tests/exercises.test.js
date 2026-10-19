@@ -99,6 +99,15 @@ test("restore checks every field and rejects other files", () => {
   }
 });
 
+test("a backup is due weekly once there are exercises", () => {
+  assert.deepEqual(E.backupStatus(null, TODAY, 0), { due: false, days: null }, "nothing to lose yet");
+  assert.deepEqual(E.backupStatus(null, TODAY, 3), { due: true, days: null });
+  assert.deepEqual(E.backupStatus("2026-10-13", TODAY, 3), { due: false, days: 6 });
+  assert.deepEqual(E.backupStatus("2026-10-12", TODAY, 3), { due: true, days: 7 });
+  assert.deepEqual(E.backupStatus("2026-09-28", "2026-10-05", 1), { due: true, days: 7 }, "across a month");
+  assert.deepEqual(E.backupStatus("2026-03-28", "2026-04-04", 1), { due: true, days: 7 }, "across a daylight-saving change");
+});
+
 test("a deck of licensed exercises needs its source and licence", () => {
   const deck = {
     format: "math-drill-exercise-deck",

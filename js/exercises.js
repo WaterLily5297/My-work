@@ -148,10 +148,18 @@
     return { items: [...items, ...fresh], added: fresh.length, ignored: incoming.length - fresh.length };
   }
 
+  // Exercises live in one browser only, so remind about a backup once a week.
+  const BACKUP_EVERY = 7;
+  /** { due, days }: days since the last backup (null if never); due when there is something to lose. */
+  function backupStatus(lastBackup, today, count) {
+    const days = lastBackup ? Math.round((Date.parse(`${today}T12:00:00Z`) - Date.parse(`${lastBackup}T12:00:00Z`)) / 86400000) : null;
+    return { due: count > 0 && (days === null || days >= BACKUP_EVERY), days };
+  }
+
   /** "Algebraic Curves · §3.3 · Exercise 3.17 · p. 41" */
   function label(item) {
     return [item.section && `§${item.section}`, `Exercise ${item.number}`, item.page && `p. ${item.page}`].filter(Boolean).join(" · ");
   }
 
-  return { BACKUP, DECK, bookKey, expandNumbers, addExercises, grade, isDue, dueQueue, bookSummary, backup, restore, label };
+  return { BACKUP, DECK, BACKUP_EVERY, backupStatus, bookKey, expandNumbers, addExercises, grade, isDue, dueQueue, bookSummary, backup, restore, label };
 });

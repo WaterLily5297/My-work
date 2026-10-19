@@ -927,3 +927,30 @@ button.link:hover {
   margin-top: 0.75rem;
   font-size: 0.85rem;
 }
+
+.backup-reminder {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin: -0.5rem 0 1.25rem;
+  padding: 0.6rem 0.9rem;
+  border: 1.5px solid var(--red);
+  border-radius: 6px;
+  background: var(--paper);
+}
+
+.backup-reminder p {
+  margin: 0;
+  flex: 1 1 16rem;
+  font-size: 0.95rem;
+}
+
+.backup-reminder button {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+#last-backup:empty {
+  display: none;
+}
