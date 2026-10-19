@@ -77,13 +77,14 @@
           <p class="quiet" id="card-instructions">Work it out on paper first, then mark how it went.</p>
           <p class="quiet" id="card-history"></p>
           <div class="actions">
-            <button type="button" class="primary" id="solved">Solved it</button>
-            <button type="button" id="not-yet">Not yet</button>
-            <button type="button" id="show-answer" hidden>Show the book's answer</button>
-            <button type="button" class="link" id="skip">Skip</button>
+            <button type="button" class="primary" id="solved" aria-keyshortcuts="S">Solved it</button>
+            <button type="button" id="not-yet" aria-keyshortcuts="N">Not yet</button>
+            <button type="button" id="show-answer" aria-keyshortcuts="A" hidden>Show the book's answer</button>
+            <button type="button" class="link" id="skip" aria-keyshortcuts="K">Skip</button>
             <button type="button" class="link" id="remove">Remove</button>
           </div>
           <p class="feedback" id="card-feedback" role="status" aria-live="polite"></p>
+          <p class="quiet shortcuts">Keys: <kbd>S</kbd> solved, <kbd>N</kbd> not yet, <kbd>A</kbd> the book's answer, <kbd>K</kbd> skip.</p>
           <section class="solution" id="answer" hidden>
             <h2>The book's answer</h2>
             <div id="answer-text"></div>

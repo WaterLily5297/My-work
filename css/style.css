@@ -922,3 +922,8 @@ button.link:hover {
 .foot a {
   color: var(--ink);
 }
+
+.shortcuts {
+  margin-top: 0.75rem;
+  font-size: 0.85rem;
+}

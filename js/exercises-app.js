@@ -229,6 +229,17 @@
     $("answer").hidden = false;
   });
 
+  // Single-key shortcuts for the review card, except while typing in a field.
+  const SHORTCUTS = { s: "solved", n: "not-yet", a: "show-answer", k: "skip" };
+  document.addEventListener("keydown", (event) => {
+    if (event.ctrlKey || event.metaKey || event.altKey || event.repeat) return;
+    if (event.target.closest("input, textarea, select, [contenteditable]")) return;
+    const button = $(SHORTCUTS[event.key.toLowerCase()] || "");
+    if (!button || $("card").hidden || button.hidden || button.disabled) return;
+    event.preventDefault();
+    button.click();
+  });
+
   // ---------- Backup ----------
   $("backup").addEventListener("click", () => {
     const day = today();
