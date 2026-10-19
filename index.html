@@ -17,6 +17,10 @@
   <body>
     <header class="masthead">
       <h1 class="brand">Math Drill</h1>
+      <nav class="site-nav" aria-label="Sections">
+        <a href="index.html" aria-current="page">Generated problems</a>
+        <a href="exercises.html">Book exercises</a>
+      </nav>
       <p class="tally" aria-live="polite">
         <span><b id="stat-correct">0</b> of <b id="stat-total">0</b> correct</span>
         <span>Streak <b id="stat-streak">0</b></span>
@@ -110,6 +114,7 @@
 
     <footer class="foot">
       <p>Type answers as integers, fractions like <code>-3/4</code>, or decimals with three or more places. Press <kbd>Enter</kbd> to check, and again for the next problem.</p>
+      <p>These problems are made by a program written with an AI assistant: the numbers are random, and every answer is checked against an independent calculation in the tests, but the wording and explanations have not been reviewed by a person. For exercises written by authors, use <a href="exercises.html">Book exercises</a>.</p>
     </footer>
 
     <script src="js/core.js"></script>

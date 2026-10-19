@@ -34,6 +34,33 @@ Practice university math in your browser. Every problem is generated on the fly,
 - **Keyboard friendly**: press <kbd>Enter</kbd> to check, and <kbd>Enter</kbd> again for the next problem.
 - Light and dark themes (follows your system setting), works on phones.
 
+## Book exercises
+
+`exercises.html` schedules exercises from the books you are reading, so you can practise on problems written by their authors instead of generated ones.
+
+- **Add** a book (titles from the [Formosa catalog](https://waterlily5297.github.io/MathKnowledge-Public/) are suggested, and any other title works), an optional chapter or section, the exercise numbers (`3.17-3.20, 3.24`; a range keeps everything before its last number, as in `II.3-II.5`) and an optional page.
+- **Solve** each due exercise on paper in the book, then mark *Solved it* or *Not yet*. Solved exercises come back after 1, 3, 7 and 16 days, and one more success marks them mastered; *Not yet* brings them back tomorrow. Answers count toward the activity calendar on the problems page.
+- **Only references are stored** for your own books (book, section, number, page), so no problem text is copied. Books from the catalog link to their catalog entry, where a connected local library opens your own PDF.
+- **Backup**: exercises live in this browser's storage. *Download backup* saves a JSON file; *Restore* merges one back without overwriting saved progress.
+
+### Exercise decks from openly licensed books
+
+*Restore* also loads a deck: exercises with their text and the book's own answer, from a book whose licence allows sharing them. A deck must name its source and licence, or it is refused:
+
+```json
+{
+  "format": "math-drill-exercise-deck",
+  "version": 1,
+  "source": { "title": "…", "authors": "…", "license": "CC BY-SA 4.0", "url": "https://…" },
+  "catalogId": "optional Formosa catalog ID",
+  "exercises": [
+    { "section": "One.I.1", "number": "1.17", "page": 12, "text": "Statement, with TeX in \\( \\)", "answer": "The book's answer" }
+  ]
+}
+```
+
+The text and answers must be taken from the book's own source files and published answers, with the licence checked at the source; no deck is bundled yet. The page shows the source and licence under each answer.
+
 ## Run it
 
 No build step and no dependencies at runtime.
@@ -68,6 +95,9 @@ js/problems-nt.js   number theory generators
 js/reading.js       further reading per problem type (books from the Formosa catalog)
 js/cards.js         saved mistakes as a Markdown note of review cards
 js/study.js         review schedule, weighted practice and the daily activity log
+js/exercises.js     book exercises: number ranges, scheduling, backups and decks
+js/exercises-app.js the book exercises page
+exercises.html      the book exercises page
 js/app.js           the interface: picking problems, checking, progress, review
 tests/              Node tests (node:test)
 ```

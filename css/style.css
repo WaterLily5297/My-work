@@ -756,3 +756,169 @@ button.link:hover {
     stroke-width: 9;
   }
 }
+
+/* ---------- Sections and book exercises ---------- */
+
+.site-nav {
+  display: flex;
+  gap: 1.25rem;
+  font-size: 0.95rem;
+}
+
+.site-nav a {
+  color: var(--muted);
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  padding-bottom: 0.1rem;
+}
+
+.site-nav a:hover {
+  color: var(--graphite);
+}
+
+.site-nav a[aria-current="page"] {
+  color: var(--graphite);
+  border-bottom-color: var(--red);
+}
+
+.add-box h2 {
+  margin: 0 0 0.6rem;
+  font-size: 1.05rem;
+}
+
+.add-form {
+  display: grid;
+  gap: 0.6rem;
+  margin-bottom: 1.25rem;
+}
+
+.add-form label {
+  display: grid;
+  gap: 0.2rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.add-form input {
+  font: inherit;
+  font-weight: 400;
+  padding: 0.4rem 0.5rem;
+  border: 1.5px solid var(--line);
+  border-radius: 6px;
+  background: var(--paper);
+  color: var(--graphite);
+  min-width: 0;
+}
+
+.add-form input:focus {
+  outline: 2px solid var(--focus);
+  outline-offset: 1px;
+}
+
+.add-form .optional {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.add-form .quiet:empty {
+  display: none;
+}
+
+.book-list {
+  list-style: none;
+  margin: 0.4rem 0 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+  font-size: 0.92rem;
+}
+
+.book-list li {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0 0.5rem;
+}
+
+.book-list .book-title {
+  grid-column: 1 / -1;
+  font-weight: 600;
+  color: var(--graphite);
+}
+
+.book-list a.book-title {
+  color: var(--ink);
+}
+
+.book-list .score {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.file-link {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.file-link input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.file-link:focus-within {
+  outline: 2px solid var(--focus);
+}
+
+.exercise-number {
+  margin: 0;
+  font-family: var(--sans);
+  font-size: clamp(1.6rem, 3vw, 2.1rem);
+  font-weight: 800;
+  font-stretch: 75%;
+}
+
+.exercise-meta {
+  margin: 0.2rem 0 0;
+  color: var(--muted);
+  font-size: 1rem;
+}
+
+.exercise-text {
+  margin-top: 1rem;
+}
+
+.exercise-ref {
+  min-height: 0;
+  margin-bottom: 1rem;
+}
+
+#card-history {
+  margin: 0.3rem 0 1rem;
+}
+
+.queue-empty {
+  font-family: var(--serif);
+  font-size: 1.1rem;
+  min-height: 6rem;
+}
+
+.exercise-meta a,
+#answer-source a {
+  color: var(--ink);
+  text-underline-offset: 3px;
+}
+
+.foot p + p {
+  margin-top: 0.5rem;
+}
+
+.foot a {
+  color: var(--ink);
+}
