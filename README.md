@@ -25,7 +25,10 @@ Practice university math in your browser. Every problem is generated on the fly,
 - **Worked solutions** for every problem, plus a hint if you're stuck.
 - **Why it matters**: each algebraic geometry problem ends with a short note on where the idea leads.
 - **Further reading**: after each problem, books and lecture notes on that topic from the [Formosa public catalog](https://waterlily5297.github.io/MathKnowledge-Public/), with Japanese resources where the catalog has them. Titles open the source; *catalog entry* opens the book in the catalog, where a connected local library opens your own PDF.
-- **Mistakes to revisit**: anything you miss is saved so you can retry exactly the same problem later.
+- **Mistakes to revisit, spaced out**: anything you miss is saved so you can retry exactly the same problem. Each correct retry sends it further away (1, 3, 7, then 16 days); a wrong one starts it again from tomorrow, and five correct retries in a row retire it. *Retry N due* shows only what is due today.
+- **Practise weak spots more**: an option that draws the types you get wrong, and the types you have not tried, more often (up to five times as often as a type you always get right).
+- **Next step**: reveal the worked solution one step at a time to check your own next move. Only the last step, the answer, counts as a miss.
+- **Progress**: problems answered per day over the last eight weeks, your day streak, and your weakest types (below 80%) with a button to practise just that type.
 - **Review cards**: *Download as review cards (.md)* saves your mistakes as a Markdown note. Each problem is one card: the statement, a line holding only `?`, then the answer and worked solution, with math as `$...$`. It displays in Obsidian, and Formosa's card import (explicit card syntax in a saved note) reads each problem as one card, up to 200 per note. The note is made in your browser; nothing is uploaded.
 - **Progress tracking**: score, streak and per-topic accuracy are saved in your browser.
 - **Keyboard friendly**: press <kbd>Enter</kbd> to check, and <kbd>Enter</kbd> again for the next problem.
@@ -64,6 +67,7 @@ js/problems-ag.js   algebraic geometry generators
 js/problems-nt.js   number theory generators
 js/reading.js       further reading per problem type (books from the Formosa catalog)
 js/cards.js         saved mistakes as a Markdown note of review cards
+js/study.js         review schedule, weighted practice and the daily activity log
 js/app.js           the interface: picking problems, checking, progress, review
 tests/              Node tests (node:test)
 ```

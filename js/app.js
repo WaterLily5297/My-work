@@ -5,6 +5,7 @@
   const P = window.MathDrillProblems;
   const R = window.MathDrillReading;
   const C = window.MathDrillCards;
+  const S = window.MathDrillStudy;
   const STORE_KEY = "math-drill-v1";
 
   // ---------- Persistence (browser storage may be unavailable; the app still works) ----------
@@ -16,7 +17,11 @@
     best: 0,
     review: [],
     selected: P.TYPES.map((t) => t.id),
+    days: {},
+    smart: false,
   });
+  const today = () => S.dayOf(new Date());
+  const formatDay = (day) => new Date(`${day}T12:00:00`).toLocaleDateString("en", { weekday: "short", month: "short", day: "numeric" });
 
   function load() {
     try {
@@ -24,7 +29,7 @@
       if (!raw) return blank();
       const s = Object.assign(blank(), JSON.parse(raw));
       s.selected = s.selected.filter((id) => P.byId[id]);
-      s.review = s.review.filter((r) => P.byId[r.type]);
+      s.review = s.review.filter((r) => P.byId[r.type]).map((r) => S.normalise(r, today()));
       return s;
     } catch {
       return blank();
@@ -44,6 +49,9 @@
   let scored = false; // has this problem counted toward the score yet?
   let done = false; // solved or solution shown
   let count = 0;
+  let stepsShown = 0; // solution steps revealed one at a time
+  let solutionFull = false;
+  let reviewFinished = false;
 
   // ---------- DOM ----------
   const $ = (id) => document.getElementById(id);
@@ -76,6 +84,13 @@
     reviewStart: $("review-start"),
     reviewStop: $("review-stop"),
     reviewCount: $("review-count"),
+    reviewLater: $("review-later"),
+    smart: $("smart-mode"),
+    stepBtn: $("step-btn"),
+    daySummary: $("day-summary"),
+    calendar: $("calendar"),
+    weakEmpty: $("weak-empty"),
+    weakList: $("weak-list"),
     exportBox: $("export-box"),
     exportCards: $("export-cards"),
     exportNote: $("export-note"),
@@ -231,12 +246,68 @@
     $("stat-streak").textContent = store.streak;
     $("stat-best").textContent = store.best;
     const n = store.review.length;
-    el.reviewCount.textContent = n;
+    const { due, later, next } = S.reviewSummary(store.review, today());
+    el.reviewCount.textContent = due;
     el.reviewEmpty.hidden = n > 0 || mode === "review";
-    el.reviewStart.hidden = n === 0 || mode === "review";
+    el.reviewStart.hidden = due === 0 || mode === "review";
     el.reviewStop.hidden = mode !== "review";
+    el.reviewLater.hidden = later === 0 || mode === "review";
+    el.reviewLater.textContent = later
+      ? `${due === 0 ? "Nothing due today. " : ""}${later} more scheduled; the next comes back ${formatDay(next)}.`
+      : "";
     el.modeFlag.hidden = mode !== "review";
     el.exportBox.hidden = n === 0 || !C;
+    renderProgress();
+  }
+
+  // ---------- Progress: activity calendar and weakest types ----------
+  const level = (n) => (n === 0 ? 0 : n <= 2 ? 1 : n <= 5 ? 2 : n <= 9 ? 3 : 4);
+  function focusType(id) {
+    store.selected = [id];
+    mode = "new";
+    save();
+    syncTopics();
+    nextProblem();
+  }
+  function renderProgress() {
+    const t = today();
+    const done = (store.days[t] || {}).tries || 0;
+    const streak = S.dayStreak(store.days, t);
+    el.daySummary.textContent = `${done} ${done === 1 ? "problem" : "problems"} today · ${streak}-day streak`;
+    el.calendar.replaceChildren();
+    for (const week of S.calendar(store.days, t, 8)) {
+      const column = document.createElement("div");
+      for (const { day, tries } of week) {
+        const cell = document.createElement("span");
+        cell.dataset.level = tries === null ? "future" : level(tries);
+        if (tries !== null) cell.title = `${formatDay(day)}: ${tries} ${tries === 1 ? "problem" : "problems"}`;
+        column.append(cell);
+      }
+      el.calendar.append(column);
+    }
+    // Only types below 80% (after smoothing) count as weak spots.
+    const weak = S.weakest(store.stats, P.TYPES.map((x) => x.id), 5).filter((w) => w.score < 0.8);
+    const tried = Object.values(store.stats).some((st) => st.tries > 0);
+    el.weakEmpty.hidden = weak.length > 0;
+    el.weakEmpty.textContent = tried
+      ? "No weak spots: every type you have tried is above 80%."
+      : "Answer a few problems to see where to focus.";
+    el.weakList.replaceChildren(
+      ...weak.map((w) => {
+        const li = document.createElement("li");
+        const type = P.byId[w.id];
+        const name = span(type.name, "weak-name");
+        const score = span(`${w.correct}/${w.tries}`, "score");
+        const go = document.createElement("button");
+        go.type = "button";
+        go.className = "link";
+        go.textContent = "Practise";
+        go.setAttribute("aria-label", `Practise only ${type.name}`);
+        go.addEventListener("click", () => focusType(w.id));
+        li.append(name, score, go);
+        return li;
+      })
+    );
   }
 
   // Saved mistakes become a Markdown note of review cards, made in the browser.
@@ -268,30 +339,44 @@
     } else {
       store.streak = 0;
     }
-    const key = (r) => r.type === current.type && r.seed === current.seed;
-    if (ok && mode === "review") store.review = store.review.filter((r) => !key(r));
-    if (!ok && !store.review.some(key)) store.review.push({ type: current.type, seed: current.seed });
+    const t = today();
+    store.days = S.logged(store.days, t, ok);
+    // Reviews move along the schedule; a new mistake is due straight away.
+    const i = store.review.findIndex((r) => r.type === current.type && r.seed === current.seed);
+    let outcome = null;
+    if (mode === "review" && i >= 0) {
+      outcome = S.reviewed(store.review[i], ok, t);
+      if (outcome) store.review[i] = outcome;
+      else store.review.splice(i, 1);
+    } else if (!ok) {
+      const item = S.missed(current.type, current.seed, t);
+      if (i >= 0) store.review[i] = item;
+      else store.review.push(item);
+    }
     save();
     syncTopics();
     renderTally();
+    return outcome;
   }
 
   // ---------- Problem lifecycle ----------
   function pickNext() {
     if (mode === "review") {
-      if (store.review.length === 0) {
+      const due = store.review.find((r) => S.isDue(r, today()));
+      if (!due) {
         mode = "new";
+        reviewFinished = true;
       } else {
-        // rotate so "Skip" moves on to the next missed problem
-        const r = store.review.shift();
-        store.review.push(r);
+        // rotate so "Skip" moves on to the next due problem
+        store.review = [...store.review.filter((r) => r !== due), due];
         save();
-        return r;
+        return due;
       }
     }
     const pool = store.selected.length ? store.selected : P.TYPES.map((t) => t.id);
-    let type = pool[Math.floor(Math.random() * pool.length)];
-    if (pool.length > 1 && current && type === current.type) type = pool[Math.floor(Math.random() * pool.length)];
+    const draw = () => (store.smart ? S.weightedPick(pool, store.stats, Math.random) : pool[Math.floor(Math.random() * pool.length)]);
+    let type = draw();
+    if (pool.length > 1 && current && type === current.type) type = draw();
     return { type, seed: core.newSeed() };
   }
 
@@ -332,7 +417,12 @@
       el.fields.append(wrap);
     });
 
-    el.feedback.textContent = "";
+    el.feedback.textContent = reviewFinished ? "No more reviews due today. Back to new problems." : "";
+    reviewFinished = false;
+    stepsShown = 0;
+    solutionFull = false;
+    el.stepBtn.disabled = false;
+    el.stepBtn.textContent = "Next step";
     el.hint.hidden = true;
     el.hint.innerHTML = current.hint;
     renderMath(el.hint);
@@ -367,18 +457,32 @@
     return current.answers.map((a) => `${a.label} = ${a.value.toTex()}`).join(",\\quad ");
   }
 
-  function showSolution() {
-    el.steps.innerHTML = "";
-    for (const step of current.solution) {
+  /** The worked solution, ending with the answer. */
+  function solutionSteps() {
+    return [...current.solution, `<b>Answer:</b> \\(${answerTex()}\\)${current.unordered ? " (in any order)" : ""}`];
+  }
+  function appendSteps(steps) {
+    for (const step of steps) {
       const li = document.createElement("li");
       li.innerHTML = step;
       el.steps.append(li);
+      renderMath(li);
     }
-    const li = document.createElement("li");
-    li.innerHTML = `<b>Answer:</b> \\(${answerTex()}\\)${current.unordered ? " (in any order)" : ""}`;
-    el.steps.append(li);
-    renderMath(el.steps);
     el.solution.hidden = false;
+  }
+  function showSolution() {
+    appendSteps(solutionSteps().slice(stepsShown));
+    stepsShown = solutionSteps().length;
+    solutionFull = true;
+    el.stepBtn.disabled = true;
+  }
+  // One step at a time; the last step is the answer, so it counts like "Show solution".
+  function showNextStep() {
+    const steps = solutionSteps();
+    if (stepsShown >= steps.length - 1) return el.solBtn.click();
+    appendSteps([steps[stepsShown]]);
+    stepsShown++;
+    if (stepsShown === steps.length - 1) el.stepBtn.textContent = "Show answer";
   }
 
   function finish() {
@@ -388,7 +492,8 @@
     el.check.hidden = true;
     el.skip.hidden = true;
     el.next.hidden = false;
-    el.solBtn.disabled = !el.solution.hidden;
+    el.solBtn.disabled = solutionFull;
+    el.stepBtn.disabled = solutionFull;
     el.next.focus({ preventScroll: true });
   }
 
@@ -414,8 +519,9 @@
       inputs[bad].focus();
       return;
     }
+    let outcome; // the review schedule after this answer, when it was the first try
     if (!scored) {
-      record(res.ok);
+      outcome = record(res.ok);
       scored = true;
     }
     inputs.forEach((inp, i) => {
@@ -424,7 +530,14 @@
     });
     if (res.ok) {
       setMark("check");
-      el.feedback.textContent = mode === "review" ? "Correct. Removed from your mistakes." : "Correct.";
+      el.feedback.textContent =
+        mode !== "review"
+          ? "Correct."
+          : outcome === null
+            ? "Correct. That is five in a row, so it leaves your mistakes."
+            : outcome
+              ? `Correct. It comes back ${formatDay(outcome.due)}.`
+              : "Correct. The first try was wrong, so it comes back tomorrow.";
       finish();
     } else {
       setMark("cross");
@@ -433,6 +546,7 @@
         current.answers.length > 1
           ? `Not quite: ${n} of ${current.answers.length} ${n === 1 ? "box is" : "boxes are"} wrong. Fix ${n === 1 ? "it" : "them"} and check again, or see the solution.`
           : "Not quite. Try again, or see the solution.";
+      if (outcome && mode === "review") el.feedback.textContent += " This review counts as missed; it comes back tomorrow.";
       const firstWrong = inputs[res.perField.findIndex((x) => !x)];
       firstWrong?.focus();
       firstWrong?.select();
@@ -446,6 +560,11 @@
   });
   el.next.addEventListener("click", nextProblem);
   el.skip.addEventListener("click", nextProblem);
+  el.stepBtn.addEventListener("click", showNextStep);
+  el.smart.addEventListener("change", () => {
+    store.smart = el.smart.checked;
+    save();
+  });
   el.hintBtn.addEventListener("click", () => {
     el.hint.hidden = false;
     el.hintBtn.disabled = true;
@@ -457,7 +576,8 @@
     }
     showSolution();
     if (!done) {
-      el.feedback.textContent = "Solution shown. This one is saved to your mistakes to try again later.";
+      el.feedback.textContent =
+        mode === "review" ? "Solution shown. It comes back tomorrow." : "Solution shown. It is now in your mistakes to revisit.";
       finish();
     }
     el.solBtn.disabled = true;
@@ -498,6 +618,7 @@
     if (window.matchMedia("(max-width: 820px)").matches) el.topicsPanel.open = false;
     buildTopics();
     syncTopics();
+    el.smart.checked = store.smart;
     nextProblem();
   }
 

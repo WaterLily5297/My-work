@@ -263,6 +263,84 @@ kbd {
   font-size: 0.92rem;
 }
 
+.smart {
+  margin-top: 0.75rem;
+  padding-top: 0.6rem;
+  border-top: 1px dashed var(--line);
+}
+
+#review-later {
+  margin-top: 0.5rem;
+}
+
+/* ---------- Progress ---------- */
+
+.progress {
+  border-top: 1px solid var(--line);
+  padding-top: 1rem;
+  margin-top: 1.25rem;
+}
+
+.progress h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+}
+
+.progress h3 {
+  margin: 1rem 0 0.35rem;
+  font-size: 0.95rem;
+}
+
+/* Eight weeks, one column per week, Sunday at the top. */
+.calendar {
+  display: flex;
+  gap: 3px;
+  margin-top: 0.6rem;
+}
+
+.calendar div {
+  display: grid;
+  gap: 3px;
+}
+
+.calendar span {
+  width: 13px;
+  height: 13px;
+  border-radius: 2px;
+  background: var(--panel);
+  outline: 1px solid color-mix(in srgb, var(--line) 60%, transparent);
+}
+
+.calendar span[data-level="1"] { background: color-mix(in srgb, var(--ink) 25%, var(--panel)); }
+.calendar span[data-level="2"] { background: color-mix(in srgb, var(--ink) 50%, var(--panel)); }
+.calendar span[data-level="3"] { background: color-mix(in srgb, var(--ink) 75%, var(--panel)); }
+.calendar span[data-level="4"] { background: var(--ink); }
+.calendar span[data-level="future"] { visibility: hidden; }
+
+.weak-list {
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  font-size: 0.92rem;
+}
+
+.weak-list li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin: 0.2rem 0;
+}
+
+.weak-list .weak-name {
+  flex: 1;
+}
+
+.weak-list .score {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-variant-numeric: tabular-nums;
+}
+
 /* ---------- Buttons ---------- */
 
 button {
