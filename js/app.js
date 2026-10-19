@@ -3,6 +3,7 @@
   "use strict";
   const core = window.MathDrillCore;
   const P = window.MathDrillProblems;
+  const R = window.MathDrillReading;
   const STORE_KEY = "math-drill-v1";
 
   // ---------- Persistence (browser storage may be unavailable; the app still works) ----------
@@ -61,6 +62,9 @@
     mark: $("mark"),
     why: $("why"),
     whyText: $("why-text"),
+    reading: $("reading"),
+    readingList: $("reading-list"),
+    readingMore: $("reading-more"),
     no: $("problem-no"),
     type: $("problem-type"),
     modeFlag: $("mode-flag"),
@@ -86,6 +90,39 @@
   function renderTex(tex, node) {
     if (window.katex) window.katex.render(tex, node, { throwOnError: false });
     else node.textContent = tex;
+  }
+
+  // ---------- Further reading (links into the Formosa catalog) ----------
+  function link(text, href) {
+    const a = document.createElement("a");
+    a.href = href;
+    a.target = "_blank";
+    a.rel = "noopener noreferrer";
+    a.textContent = text;
+    return a;
+  }
+  function span(text, className) {
+    const s = document.createElement("span");
+    s.className = className;
+    s.textContent = text;
+    return s;
+  }
+  // Returns false when there is nothing to show for this problem type.
+  function renderReading() {
+    el.readingList.replaceChildren();
+    el.readingMore.replaceChildren();
+    const reading = R && R.forType(current.type, current.topic);
+    if (!reading) return false;
+    for (const book of [...reading.books, ...reading.topicBooks]) {
+      const li = document.createElement("li");
+      li.append(link(book.title, book.source), span(` by ${book.authors}`, "by"));
+      if (book.language === "ja") li.append(span("Japanese", "lang"));
+      li.append(span(" · ", "entry"), link("catalog entry", book.catalog));
+      el.readingList.append(li);
+    }
+    const q = reading.search.q;
+    el.readingMore.append(link(q ? `Search the Formosa catalog for “${q}”` : "Browse more books in the Formosa catalog", reading.search.url));
+    return true;
   }
 
   // ---------- Topic picker ----------
@@ -282,6 +319,8 @@
     el.why.hidden = true;
     el.whyText.innerHTML = current.why || "";
     renderMath(el.whyText);
+    el.reading.hidden = true;
+    el.reading.dataset.ready = renderReading() ? "yes" : "";
     setMark(null);
     el.check.hidden = false;
     el.skip.hidden = false;
@@ -323,6 +362,7 @@
   function finish() {
     done = true;
     el.why.hidden = !current.why;
+    el.reading.hidden = !el.reading.dataset.ready;
     el.check.hidden = true;
     el.skip.hidden = true;
     el.next.hidden = false;

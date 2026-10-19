@@ -539,6 +539,57 @@ button.link:hover {
   line-height: 1.65;
 }
 
+/* ---------- Further reading ---------- */
+
+.reading {
+  margin-top: 1.5rem;
+  padding: 0.9rem 1.25rem 1rem;
+  background: var(--paper);
+  border-left: 3px solid var(--ink);
+}
+
+.reading h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.05rem;
+}
+
+.reading ul {
+  margin: 0 0 0.6rem;
+  padding-left: 1.1rem;
+}
+
+.reading li {
+  margin: 0.3rem 0;
+  font-family: var(--serif);
+  font-size: 1.02rem;
+  line-height: 1.5;
+}
+
+.reading a {
+  color: var(--ink);
+  text-underline-offset: 0.15em;
+}
+
+.reading .by,
+.reading .entry {
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.reading .lang {
+  margin-left: 0.4rem;
+  padding: 0 0.35rem;
+  border: 1px solid var(--line);
+  font-family: var(--sans);
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.reading-more {
+  margin: 0 0 0.4rem;
+  font-size: 0.95rem;
+}
+
 /* ---------- Red-pen mark ---------- */
 
 .mark {
